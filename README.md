@@ -1,4 +1,9 @@
-# react-native-lightbox
+# react-native-lightbox-reanimated (WIP)
+
+# Please read!
+```$xslt
+    This is a WIP, for the working version please go to https://github.com/oblador/react-native-lightbox
+```
 
 ## Installation
 
