@@ -24,11 +24,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   header: {
+    /*
     position: 'absolute',
     top: 0,
     left: 0,
-    width: WINDOW_WIDTH,
-    backgroundColor: 'transparent',
+    width: WINDOW_WIDTH,*/
+    height: 40,
+    zIndex: 9999,
   },
   closeButton: {
     fontSize: 35,
@@ -44,6 +46,14 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOpacity: 0.8,
   },
+  contentContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    flex: 1,
+  }
 });
 
 export default class LightboxOverlay extends Component {
@@ -65,11 +75,13 @@ export default class LightboxOverlay extends Component {
     onClose:         PropTypes.func,
     willClose:         PropTypes.func,
     swipeToDismiss:  PropTypes.bool,
+    headerOffset:  PropTypes.number,
   };
 
   static defaultProps = {
     springConfig: { tension: 30, friction: 7, useNativeDriver: false },
     backgroundColor: 'black',
+    headerOffset: 40,
   };
 
   constructor(props) {
@@ -211,9 +223,9 @@ export default class LightboxOverlay extends Component {
 
     const openStyle = [styles.open, {
       left:   openVal.interpolate({inputRange: [0, 1], outputRange: [origin.x, target.x]}),
-      top:    openVal.interpolate({inputRange: [0, 1], outputRange: [origin.y + STATUS_BAR_OFFSET, target.y + STATUS_BAR_OFFSET]}),
+      top:    openVal.interpolate({inputRange: [0, 1], outputRange: [origin.y + STATUS_BAR_OFFSET + this.props.headerOffset, target.y + STATUS_BAR_OFFSET + this.props.headerOffset]}),
       width:  openVal.interpolate({inputRange: [0, 1], outputRange: [origin.width, WINDOW_WIDTH]}),
-      height: openVal.interpolate({inputRange: [0, 1], outputRange: [origin.height, WINDOW_HEIGHT]}),
+      height: openVal.interpolate({inputRange: [0, 1], outputRange: [origin.height- this.props.headerOffset, WINDOW_HEIGHT - this.props.headerOffset]}),
     }];
 
     const background = (<Animated.View style={[styles.background, { backgroundColor: backgroundColor }, lightboxOpacityStyle]}></Animated.View>);
@@ -244,8 +256,10 @@ export default class LightboxOverlay extends Component {
     return (
       <Modal visible={isOpen} transparent={true} onRequestClose={() => this.close()}>
         {background}
-        {content}
-        {header}
+        <View style={styles.contentContainer}>
+          {header}
+          {content}
+        </View>
       </Modal>
     );
   }

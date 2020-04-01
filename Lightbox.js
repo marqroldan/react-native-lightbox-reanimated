@@ -9,6 +9,7 @@ export default class Lightbox extends Component {
     activeProps:     PropTypes.object,
     renderHeader:    PropTypes.func,
     renderContent:   PropTypes.func,
+    headerOffset:    PropTypes.number,
     underlayColor:   PropTypes.string,
     backgroundColor: PropTypes.string,
     didOpen:         PropTypes.func,
@@ -24,6 +25,7 @@ export default class Lightbox extends Component {
 
   static defaultProps = {
     swipeToDismiss: true,
+    headerOffset: 40,
     onOpen: () => {},
     didOpen: () => {},
     willClose: () => {},
@@ -57,6 +59,7 @@ export default class Lightbox extends Component {
   getOverlayProps = () => ({
     isOpen: this.state.isOpen,
     origin: this.state.origin,
+    headerOffset: this.props.headerOffset,
     renderHeader: this.props.renderHeader,
     swipeToDismiss: this.props.swipeToDismiss,
     springConfig: this.props.springConfig,
