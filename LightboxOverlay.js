@@ -68,7 +68,7 @@ export default class LightboxOverlay extends Component {
   };
 
   static defaultProps = {
-    springConfig: { tension: 30, friction: 7 },
+    springConfig: { tension: 30, friction: 7, useNativeDriver: false },
     backgroundColor: 'black',
   };
 
@@ -98,8 +98,8 @@ export default class LightboxOverlay extends Component {
       },
       onPanResponderMove: Animated.event([
         null,
-        { dy: this.state.pan }
-      ]),
+        { dy: this.state.pan}
+      ], {useNativeDriver: false}),
       onPanResponderTerminationRequest: (evt, gestureState) => true,
       onPanResponderRelease: (evt, gestureState) => {
         if(Math.abs(gestureState.dy) > DRAG_DISMISS_THRESHOLD) {
@@ -139,7 +139,7 @@ export default class LightboxOverlay extends Component {
         x: 0,
         y: 0,
         opacity: 1,
-      }
+      },
     });
 
     Animated.spring(
